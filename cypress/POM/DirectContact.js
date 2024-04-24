@@ -40,7 +40,8 @@ export class DirectContact extends CommonMethods {
         cy.get(this.surnameForm).type(user.surname)
         cy.get(this.numberForm).type(user.number)
         cy.get(this.emailForm).type(user.email)
-        cy.get(this.checkboxMandatoryForm).click({ force: true })
+        cy.get(this.checkboxMandatoryForm).as('mandatoryFrom').
+        cy.get('@mandatoryFrom').click({ force: true })
         })
     }
 
@@ -53,7 +54,8 @@ export class DirectContact extends CommonMethods {
         cy.get(this.surnameForm).type(user.userData.surname)
         cy.get(this.numberForm).type(user.userData.number)
         cy.get(this.emailForm).type(user.userData.email)
-        cy.get(this.checkboxMandatoryForm).click({ force: true })
+        cy.get(this.checkboxMandatoryForm).as('mandatoryFrom')
+        cy.get('@mandatoryForm').click({ force: true })
         })
     }
 

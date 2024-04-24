@@ -11,7 +11,7 @@ export class StartPage extends CommonMethods {
   tileImage = ".page-card__image-container"
   tileContent = ".page-card__content"
   tileLink = ".page-card__link"
-  loginIcon = ".btn.btn-login"
+  loginIcon = ".btn-login"
 
 
   //Methods

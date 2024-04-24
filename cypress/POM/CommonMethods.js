@@ -5,7 +5,7 @@ export class CommonMethods {
     //Selectors
     
     logo = ".logo.navbar-brand"
-    loginIcon = ".btn.btn-login"
+    loginIcon = ".btn-login"
   
 
     //Methods
