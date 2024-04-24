@@ -1,7 +1,7 @@
-import { startPage } from "../../POM/startPage"
-import { nt2 } from "../../POM/NT2"
-import { directContact } from "../../POM/DirectContact"
-import { commonMethods } from "../../POM/CommonMethods"
+import { startPage } from "../../POM/bureauICE/startPage"
+import { nt2 } from "../../POM/bureauICE/NT2"
+import { directContact } from "../../POM/bureauICE/DirectContact"
+import { commonMethods } from "../../POM/bureauICE/CommonMethods"
 
 describe("Start page", () => {
 
