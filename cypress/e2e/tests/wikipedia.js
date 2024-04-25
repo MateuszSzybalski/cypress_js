@@ -21,5 +21,14 @@ context('Actions', () => {
     })
     cy.go("back")
     cy.url().should('contain', 'Main_Page').log('Url contains correct parameter')
+    cy.get('#vector-page-tools-dropdown-checkbox').then( dropdowns => {
+      cy.wrap(dropdowns).click()
+      cy.get('.vector-menu-content-list').parents('#p-tb').then( listItem => {
+        //const itemText = listItem.text()
+        //cy.wrap(listItem).should('contain', itemText)
+        cy.wrap(listItem).should('be.visible')
+      })
+
+    })    
   })
 })
