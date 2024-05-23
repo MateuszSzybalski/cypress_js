@@ -1,12 +1,11 @@
 /// <reference types="cypress" />
 
-const { description } = require("commander")
-const { multiply } = require("lodash")
-const { textChangeRangeIsUnchanged } = require("typescript")
+import { description } from "commander"
+import { multiply } from "lodash"
+import { textChangeRangeIsUnchanged } from "typescript"
 
 describe('Wikipedia.en', () => {
 
-  context('Actions', () => {
     beforeEach(() => {
       cy.visit('https://angularjs.realworld.io/')
     })
@@ -25,19 +24,13 @@ describe('Wikipedia.en', () => {
           cy.wrap($singIn).click()
           cy.url().should('contain', href)
         })
-          //   //   cy.get('[data-testid="article-card-title"]').eq(7).then(($tile) => {
-  //   //     let href = $tile.attr('href')
-  //   //     cy.wrap($tile).click()
-  //   //     cy.url().should('contain', href)
-  //   //   })
       })
     })
   })
-})
 
 describe('Sii', () => {
 
-  it("Sii test", () => {
+  it('Sii test', () => {
     cy.viewport(1200, 840)
     cy.visit('https://sii.pl/')
     cy.get('.cmplz-buttons').contains('Akceptuj wszystkie pliki cookies').click()
@@ -59,12 +52,12 @@ describe('Sii', () => {
 
 })
 
-describe("Goal.com", () => {
-  it('Visits homepage, opens first article', () => {    
-      cy.visit('https://www.goal.com/en')
-      cy.intercept('*cnsnt.goal.com*', (id) => {
-        id.destroy();
-      })
-      //cy.viewport(1536, 960)
-  })
-})
+// describe('Goal.com', () => {
+//   it('Visits homepage', () => {    
+//       cy.visit('https://www.goal.com/en')
+//       cy.intercept('*cnsnt.goal.com*', (id) => {
+//         id.destroy();
+//       })
+//       //cy.viewport(1536, 960)
+//   })
+// })

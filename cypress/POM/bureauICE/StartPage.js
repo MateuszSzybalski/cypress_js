@@ -17,7 +17,7 @@ export class StartPage extends CommonMethods {
   //Methods
 
   openToStartPage() {
-    cy.visit('/')
+    cy.visit('https://www.bureau-ice.nl')
     cy.get(this.privacyButton).click()
   }
 

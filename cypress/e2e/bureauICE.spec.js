@@ -1,6 +1,6 @@
-import { startPage } from "../../POM/bureauICE/StartPage"
-import { nt2 } from "../../POM/bureauICE/NT2"
-import { directContact } from "../../POM/bureauICE/DirectContact"
+import { startPage } from "../POM/bureauICE/StartPage"
+import { nt2 } from "../POM/bureauICE/NT2"
+import { directContact } from "../POM/bureauICE/DirectContact"
 
 describe("Start page", () => {
 

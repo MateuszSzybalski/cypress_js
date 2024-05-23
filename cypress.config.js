@@ -5,8 +5,8 @@ module.exports = defineConfig({
   viewportHeight: 1024,
   projectId: 'Szybka-Cypress',
   e2e: {
-    baseUrl: 'https://www.bureau-ice.nl',
-    specPattern: 'cypress/e2e/tests/*.js'
+    //baseUrl: '/',
+    specPattern: 'cypress/e2e/*.js'
   },
   component: {
       specPattern: 'cypress/POM/*.js'
