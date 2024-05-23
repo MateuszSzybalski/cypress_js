@@ -54,7 +54,7 @@ describe('Google', () => {
 
 describe('Sii', () => {
 
-  it.only("Sii test", () => {
+  it("Sii test", () => {
     cy.viewport(1200, 840)
     cy.visit('https://sii.pl/')
     cy.get('.cmplz-buttons').contains('Akceptuj wszystkie pliki cookies').click()
