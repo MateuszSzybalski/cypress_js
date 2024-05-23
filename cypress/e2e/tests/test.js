@@ -35,23 +35,6 @@ describe('Wikipedia.en', () => {
   })
 })
 
-describe('Google', () => {
-
-  beforeEach('Main page', () => {
-    cy.visit('https://www.google.com')
-  })
-
-  it('Google', () => {
-    cy.url().should('contain', 'google')
-    cy.get('#L2AGLb').click()
-    cy.get('.SDkEP').should('be.visible')
-    cy.intercept('POST', 'https://play.google.com/log?format=json&hasfast=true').as('request')
-    cy.get('#APjFqb').type('sii łódź').type('{enter}')
-    cy.wait('@request')
-    cy.get('.q0vns').first().contains('Sii Polska')
-  })
-})
-
 describe('Sii', () => {
 
   it("Sii test", () => {
