@@ -10,6 +10,10 @@ export class CommonMethods {
 
     //Methods
 
+    // checkIfTitlePageIsCorrect = title => {
+    //   cy.title().should('include', title)
+    // };
+
     checkIfTitlePageIsCorrect(title) {
       cy.title().should('include', title)
     };
