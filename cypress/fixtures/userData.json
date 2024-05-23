@@ -1,0 +1,12 @@
+{
+    "company": {
+      "name": "Test Company",
+      "function": "QA"
+    },
+    "userData": {
+      "name": "Tester",
+      "surname": "Testowy",
+      "number": "+31 123-4567-89",
+      "email": "tester.testowy@test.pl"
+    }
+}
