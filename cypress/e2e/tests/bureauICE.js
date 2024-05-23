@@ -1,7 +1,6 @@
-import { startPage } from "../../POM/bureauICE/startPage"
+import { startPage } from "../../POM/bureauICE/StartPage"
 import { nt2 } from "../../POM/bureauICE/NT2"
 import { directContact } from "../../POM/bureauICE/DirectContact"
-import { commonMethods } from "../../POM/bureauICE/CommonMethods"
 
 describe("Start page", () => {
 
