@@ -1,73 +1,64 @@
 /// <reference types="cypress" />
 
-import { ogolne } from "../POM/Ogolne"
+import { common } from "../POM/Common"
+import { loginPage } from "../POM/LoginPage"
+import { projectManagementPage } from "../POM/ProjectManagementPage"
+import { reportsAndSettingPage } from "../POM/ReportsAndSettingsPage"
+import { salesAndMarketingPage } from "../POM/SalesAndMarketingPage"
+import { startPage } from "../POM/StartPage"
 
 describe('Replay', () => {
-  
+  Cypress.on('uncaught:exception', () => { return false })
+
 beforeEach(() => {
-      cy.visit('https://demo.1crmcloud.com/')
+      cy.visit('https://demo.1crmcloud.com')
     })
   
     it('Scenario 1 – Create contact:', () => {
-        cy.fixture("replay").then((loginCredentials) => {
-        cy.get('#login_user').type(loginCredentials.username)
-        cy.get('#login_pass').type(loginCredentials.password)
-        })
-        cy.intercept('POST','**/json.php?action=get_menu_structure').as('requestTag')
-        cy.get('#login_button').click()
-        cy.wait('@requestTag')
-        cy.get('#grouptab-1').should('have.attr', 'title', 'Sales & Marketing')
-        cy.intercept('GET', '**?module=Contacts&action=EditView&return_module=Contacts&return_action=DetailView').as('requestTag2')
-        cy.get('.sidebar-item').contains('Create Contact').click()
-        cy.wait('@requestTag2')
-        cy.wait(2000)
-        cy.fixture("replay").then((userData) => {
-          cy.get('#DetailFormfirst_name-input').type(userData.firstName)
-          cy.get('#DetailFormlast_name-input').type(userData.lastName)
-          cy.get('#DetailFormcategories-input-body').click({force: true})
-          cy.get('#DetailFormcategories-input-search-text').type(userData.role1).type('{enter}')
-          cy.get('#DetailFormcategories-input-search-text').type(userData.role2).type('{enter}')
-          cy.get('#DetailFormbusiness_role-input-label').click({force: true})
-          cy.get('#DetailFormbusiness_role-input-popup').contains(userData.title).click()
-        })         
-        cy.get('#DetailForm_save-label').click()
-        cy.wait(2000)
-        ogolne.saveValue('.listViewNameLink', 0, 'nameAlias')
-        cy.get('.sidebar-item-label').contains('Contacts').click({force:true})
-        cy.get('#filter_text').type('Tester1').type('{enter}')
-        cy.wait(2000)
-        ogolne.compareAliasVal('.listViewNameLink', 'nameAlias', 0)
-        cy.intercept('GET', '**module=Contacts&action=DetailView&record*').as('reqCon')
-        cy.fixture("replay").then((names) => {
-          cy.get('.listViewNameLink').contains(names.firstName + ' ' + names.lastName).click()
-        })
-        cy.get('.listViewNameLink').contains('Tester1' + ' ' + 'Test').click()
-        cy.wait('@reqCon')
-        cy.get('#DetailForm-subpanels').should('be.visible')
-        cy.url().should('contain', 'Contacts&action')
-        cy.get('#DetailForm_personal_data-label').click()
-        cy.fixture('replay').then((nameTitle) => {
-          cy.get('.listViewNameLink').contains(nameTitle.firstName + ' ' + nameTitle.lastName)
-          cy.get('form-value').parent('.column.form-cell.sm-6.cell-business_role.span-1').contains(nameTitle.title)
-        })
+        loginPage.logIntoPortal()
+        loginPage.catchRequest('POST','**/json.php?action=get_menu_structure', 'request1')
+        loginPage.clickElement(loginPage.loginButton)
+        startPage.waitForResponse('request1', 200)
+        startPage.clickElement(startPage.salesAndMarketingTab)
+        salesAndMarketingPage.catchRequest('GET', '**?module=Contacts&action=EditView&return_module*', 'request1')
+        salesAndMarketingPage.clickElementContainsText(salesAndMarketingPage.sideBar, 'Create Contact')
+        salesAndMarketingPage.waitForResponse('request1', 200)       
+        salesAndMarketingPage.fillTheFormFixture()
+        // \/ can be used when we want to enter the fields ourselves \/
+        //salesAndMarketingPage.fillTheFormByText('Tester1', 'Test', 'Customers', 'Suppliers', 'CEO')
+        salesAndMarketingPage.catchRequest('GET', '**/async.php?module=Contacts&action=ShowDuplicates&key*', 'request2')
+        salesAndMarketingPage.clickElement(salesAndMarketingPage.saveButton)
+        salesAndMarketingPage.waitForResponse('request2', 200)
+        salesAndMarketingPage.saveValue('.listViewNameLink', 0, 'nameAlias')
+        salesAndMarketingPage.clickElementWithForceContainsText(salesAndMarketingPage.sideBarLabel, 'Contacts')
+        salesAndMarketingPage.catchRequest('POST', '**//async*', 'request3')
+        salesAndMarketingPage.filterByText('Tester1 Test')
+        salesAndMarketingPage.filterByFirstNameAndLastNameFromFixture()
+        salesAndMarketingPage.waitForResponse('request3', 200)
+        salesAndMarketingPage.compareAliasVal('.listViewNameLink', 'nameAlias', 0)
+        salesAndMarketingPage.catchRequest('GET', '**module=Contacts&action=DetailView&record*', 'requestContact')
+        salesAndMarketingPage.clickElementWithValuesFromFixture()
+        // \/ can be used when we want to enter the fields ourselves \/
+        //salesAndMarketingPage.clickElementContainsText(salesAndMarketingPage.listViewNameLink, 'Tester1 Test')
+        salesAndMarketingPage.waitForResponse('requestContact', 200)
+        salesAndMarketingPage.clickElement(salesAndMarketingPage.detailFormPersonalData)
+        salesAndMarketingPage.checkIfNamesAndTitleAreCorrect()
       })
 
       it('Scenario 2 – Run report:', () => {
-        cy.fixture("replay").then((loginCredentials) => {
-        cy.get('#login_user').type(loginCredentials.username)
-        cy.get('#login_pass').type(loginCredentials.password)
-        })
-        cy.intercept('POST','**/json.php?action=get_menu_structure').as('requestTag')
-        cy.get('#login_button').click()
-        cy.wait('@requestTag')
-        cy.get('#grouptab-5').should('have.attr', 'title', 'Reports & Settings').click()
-        cy.get('#filter_text').type('Project Profitability').type('{enter}')
-        cy.intercept('GET', '**/include/javascript/dnduploads.js').as('req')
-        cy.get('.detailLink').contains('Project Profitability').click()
-        cy.wait('@req')
-        cy.intercept('POST', '**/async.php').as('req1')
-        cy.get('[name="FilterForm_applyButton"]').click({force: true})
-        cy.wait('@req1')
-        cy.get('table').find('tr').should('have.length.at.least', 2)
+        loginPage.logIntoPortal()
+        loginPage.catchRequest('POST','**/json.php?action=get_menu_structure', 'request1')
+        loginPage.clickElement(loginPage.loginButton)
+        startPage.waitForResponse('request1', 200)
+        startPage.clickElement(startPage.reportsAndSettingTab)
+        //startPage.clickElementWithAttribute(startPage.reportsAndSettingTab, 'title', 'Reports & Settings')
+        startPage.serachValue(startPage.searchInput, 'Project Profitability')    
+        startPage.catchRequest('GET', '**/include/javascript/dnduploads.js', 'request2')
+        reportsAndSettingPage.clickElementContainsText(reportsAndSettingPage.detailLink, 'Project Profitability')
+        reportsAndSettingPage.waitForResponse('request2', 200)
+        projectManagementPage.catchRequest('POST', '**/async.php', 'request3')
+        projectManagementPage.clickElementWithForce(projectManagementPage.filterFormButton)
+        projectManagementPage.waitForResponse('request3', 200)
+        projectManagementPage.checkIfTableIsNotEmpty(2)
       })
     })
