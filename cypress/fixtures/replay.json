@@ -1,0 +1,9 @@
+{
+  "username": "admin",
+  "password": "admin",
+  "firstName": "Tester1",
+  "lastName": "Test",
+  "role1": "Customers",
+  "role2": "Suppliers",
+  "title": "CEO"
+}
